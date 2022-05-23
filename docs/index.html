@@ -6,14 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>group1</title>
     <link href="style.css" rel="stylesheet" type="text/css" media="all">
+    <script src="./index.js"></script>
 
 </head>
+
 <body>
     <h1>
         グループ１のホームページ
     </h1>
-    <div class="link1">
-      <a href="https://www.granfairs.com/blog/staff/google-maps-api-04">How to google map edit.</a>
+
+    <div id="map">
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKL1V-F-rYdQCe2Vn6PLjDzgDTZd1a2OQ&callback=initMap"></script>
+    <script>
+    function initMap() {
+    let map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 35.633, lng: 139.446 },
+    zoom: 10,
+    styles:[
+        //地図のスタイルを変更
+        {
+            featureType: 'all',
+            elementType: 'labels',
+            stylers: [
+                {visibility: 'off'},
+            ],
+        },
+    ],
+    });
+    }
+    </script>
+    </div>
+
+    <div id="menu">
+        <ul>
+            <li>menu</li>
+            <li><a href="./article/index.html">article</a></li>
+            <li><a href="./gallery/index.html">gallery</a></li>
+        </ul>
+
     </div>
 </body>
 </html>

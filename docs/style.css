@@ -5,3 +5,30 @@ h1{
 .link1 a{
     color:steelblue;
 }
+
+#map {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    margin: 40px;
+}
+
+#menu {
+    position: absolute;
+    top: 200px;
+    right: 200px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+ul {
+    list-style: none;
+}
+
+html, body {
+    background-color: skyblue;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
