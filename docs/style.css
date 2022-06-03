@@ -1,6 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 h1{
-    color:salmon;
-    background-color: skyblue;
+    color:white;
+    position: absolute;
+
+    top: 0px;
 }
 .link1 a{
     color:steelblue;
@@ -8,11 +15,13 @@ h1{
 
 #map {
     position: relative;
+    vertical-align: top;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80%;
-    margin: 40px;
+    height: 86%;
+    margin: 50px;
+    border: solid white;
 }
 
 #menu {

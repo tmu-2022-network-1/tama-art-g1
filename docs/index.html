@@ -6,35 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>group1</title>
     <link href="style.css" rel="stylesheet" type="text/css" media="all">
-    <script src="./index.js"></script>
-
+    <script src="index.js"></script>
 </head>
 
 <body>
     <h1>
-        グループ１のホームページ
+        Tama.potari
     </h1>
 
     <div id="map">
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKL1V-F-rYdQCe2Vn6PLjDzgDTZd1a2OQ&callback=initMap"></script>
-    <script>
-    function initMap() {
-    let map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 35.633, lng: 139.446 },
-    zoom: 10,
-    styles:[
-        //地図のスタイルを変更
-        {
-            featureType: 'all',
-            elementType: 'labels',
-            stylers: [
-                {visibility: 'off'},
-            ],
-        },
-    ],
-    });
-    }
-    </script>
+  
     </div>
 
     <div id="menu">
@@ -45,6 +27,22 @@
         </ul>
 
     </div>
+        
+    <div>
+        <button type="button" onclick="getJSON()">JSONデータを取得する</button>
+
+    </div>
+    <div>ギャラリー情報</div>
+    title:<span id="output_title"></span><br />
+    venue:<span id="output_venue"></span><br />
+    startDate:<span id="output_startDate"></span><br />
+    endDate:<span id="output_endDate"></span><br />
+
+    <div>
+        なんかメニュー？
+    </div>
+
+    <script src="index.js"></script>
 </body>
 </html>
 
