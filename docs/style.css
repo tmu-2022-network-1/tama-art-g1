@@ -3,12 +3,6 @@
     padding: 0;
 }
 
-h1{
-    color:white;
-    position: absolute;
-
-    top: 0px;
-}
 .link1 a{
     color:steelblue;
 }
@@ -19,16 +13,19 @@ h1{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 86%;
-    margin: 50px;
-    border: solid white;
+    height: 100%;
+    width: 75%;
+    float: left;
+    margin: 0px;
+    border: none;
 }
 
 #menu {
-    position: absolute;
-    top: 200px;
-    right: 200px;
-    background-color: rgba(255, 255, 255, 0.5);
+    position: relative;
+    height: 100%;
+    width: 25%;
+    float: right;
+    background-color: skyblue;
 }
 
 ul {

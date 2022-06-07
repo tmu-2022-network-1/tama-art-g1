@@ -1,40 +1,45 @@
-var mapContent = [];
-var mapTitle = [];
-var mapLat = [];
-var mapLng = [];
-var mapAddress = [];
-var mapID = [];
+var gallerydata = [];
+var gallerydata2 = [];
+var markerOptions = [];
+var markers = [];
+var markerID = [];
+var iwopts = [];
+var hoverinfos = [];
 
 function getJSON(){
     let request = new XMLHttpRequest();
-    alert("データを取得しています");
+    //alert("データを取得しています");
 
     //json読み込み時の処理
     request.onreadystatechange = function() {
         //全てのデータを受信。正常に処理された場合
         if(request.readyState == 4 && request.status == 200) {
-            alert(request.responseText);
-            var gallerydata = JSON.parse(request.responseText); //JSONデータをパース
-
-            var elem = document.getElementById("output_title")
-            elem.innerText = gallerydata[0].title; //指定の位置に取得したデータを追加
-
-            for(i=0; i < gallerydata.length + 1; i++)
-            {
-                mapTitle[i] = gallerydata[i].title;
-                mapLat[i] = gallerydata[i].lat;
-                mapLng[i] = gallerydata[i].lon;
-                mapID[i] = gallerydata[i].id;
-
-            }
+            //alert(request.responseText);
+            gallerydata = JSON.parse(request.responseText); //JSONデータをパース
         }
     };
     request.open("GET", "https://script.google.com/macros/s/AKfycbxYb6A56yxS_gLG_AkWxMODItAzBrzYYT8CT3Yvxel3UlgNhau-sJnH1ZbFM-Ho_GcQkA/exec?sheet=events", false);
     request.send();
 }
 
+function getJSON2(){
+    let request2 = new XMLHttpRequest();
+    //alert("データを取得しています");
+
+    //json読み込み時の処理
+    request2.onreadystatechange = function() {
+        //全てのデータを受信。正常に処理された場合
+        if(request2.readyState == 4 && request2.status == 200) {
+            //alert(request2.responseText);
+            gallerydata2 = JSON.parse(request2.responseText); //JSONデータをパース
+        }
+    };
+    request2.open("GET", "https://script.googleusercontent.com/macros/echo?user_content_key=waQ6VHdXN81Ak5am0kKHyOMEk-chJHeXmz_hRUjjM_DCPBjQw4aVOFX-lvowrIbpvXCCL1oqjAMVzwOiZIl1ZCII_D8gsTHVm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnEmHHJxhC_oe1Qmd2R-eXjoXgTxWUu4HYlJom6QacPSgNEmyKwSz32FPG-bn2sJSQBMlTA-c0F3yHHty0meKf-_VOxuX8xhGctz9Jw9Md8uu&lib=MabRb0sHcOdgcukW2MiMwBlocHvvcqee0", false);
+    request2.send();
+}
+
 function initMap() {
-    var mapPosition = { lat: 35.633, lng: 139.446 }
+    var mapPosition = { lat: 35.633, lng: 139.446 } //mapの中心
     var mapArea = document.getElementById("map");
     var mapOptions = {
         center: mapPosition,
@@ -244,110 +249,48 @@ function initMap() {
     //マップを設置
     var map = new google.maps.Map(mapArea, mapOptions);
 
-    //マーカーの設定
-    var markerOptions1 = {
-        title: "marker",
-        map: map,
-        position: mapPosition, //設置場所
-        icon: '', //アイコンのURL
-    };
-    
-    //設定したマーカーを設置
-    var marker1 = new google.maps.Marker(markerOptions1);
-
-    //コジコジ万博の場所
-    let latlng2 = {lat: 35.7039604, lng: 139.4093263};
-
-    let latlng3 = new google.maps.LatLng(mapLat[0], mapLng[0]);
-    
-    //gallerydata[0]を使ったマーカーを作成
-    var markerOptions2 = {
-        title: "marker2",
-        map: map,
-        position: latlng2, //設置場所 配列むり？
-        icon: '', //アイコンのURL
-    };
-
-    //直前の設定のマーカーを設置
-    var marker2 = new google.maps.Marker(markerOptions2);
-
-    //マーカーホバー時の内容
-    var iwopts1 = {
-        content: 'hello',
-        position: latlng2
-    };
-
-    //gallerydataを使用したデータ
-    var iwopts0 = {
-        content: mapTitle[0],
-        position: latlng3,
-    }
-
-    /*
-    //配列を使用してjsonデータからマーカーを作成
-    function markerCreate(){
-        for (i=0; i < mapID.length; i++)
-        {
-
-        //マーカーの設定
-        var markerOptions = {
-            title: mapID[i],
+    //配列を使用してマーカーを作成
+    for (i=0; i < gallerydata.length+1; i++)
+    {
+        markerOptions[i] = {
+            title: markerID[i],
             map: map,
-            position: new google.maps.LatLng(mapLat[i], mapLng[i]),
-            icon: '',
-        }
-        //マーカーホバー時の内容
-        var iwopts = {
-            content: mapTitle[i],
-            position: new google.maps.LatLng(mapLat[i], mapLng[i]),
+            position: new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon),
+            icon:'', //アイコンのURL
         }
 
-        var markers = new google.maps.Marker(markerOptions);
+        markers[i] = new google.maps.Marker(markerOptions[i]);
 
-        var hoberinfo = new google.maps.InfoWindow(iwopts);
+        iwopts[i] = {
+            content: gallerydata[i].title,
+            position: new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon),
+        }
+
+        //インフォの設定
+        hoverinfos[i] = new google.maps.InfoWindow(iwopts[i]);
 
         //mouseoverイベントを取得するListenerを追加
-        google.maps.event.addListener(markers, 'mouseover', function(){
-            hoverinfo.open(map, markers);
+        google.maps.event.addListener(markers[i], 'mouseover', function(){
+        hoverinfos[i].open(map, markers[i]);
         })
 
         //mouseoutイベントを取得するListenerを追加
-        google.maps.event.addListener(markers, 'mouseout', function(){
-            hoverinfo.close();
+        google.maps.event.addListener(markers[i], 'mouseout', function(){
+        hoverinfos[i].close();
         })
-
-        }
     }
-    */
-
-    //インフォの設定
-    var hoverinfo1 = new google.maps.InfoWindow(iwopts1);
-
-    //mouseoverイベントを取得するListenerを追加
-    google.maps.event.addListener(marker1, 'mouseover', function(){
-        hoverinfo1.open(map, marker1);
-    })
-
-    //mouseoutイベントを取得するListenerを追加
-    google.maps.event.addListener(marker1, 'mouseout', function(){
-        hoverinfo1.close();
-    })
-
-    var hoverinfo2 = new google.maps.InfoWindow(iwopts0);
-    
-    
-    google.maps.event.addListener(marker2, 'mouseover', function(){
-        hoverinfo2.open(map, marker2);
-    })
-
-    google.maps.event.addListener(marker2, 'mouseout', function(){
-        hoverinfo2.close();
-    })
-    
 }
 
-//サイト読み込み時の処理（アクティブにすると複数回読み込まれるけどないとjsonが後になるので配列に反映されない）
-window.addEventListener("load", function() {
+//テスト用
+function test()
+{
+    alert("test");
+}
+
+
+//サイト読み込み時の処理
+window.addEventListener("DOMContentLoaded", function() {
     getJSON();
+    getJSON2();
     initMap();
 })
