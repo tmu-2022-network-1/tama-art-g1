@@ -246,14 +246,47 @@ function initMap() {
     {}
 ]
     };
+    
+    /*
     //マップを設置
     var map = new google.maps.Map(mapArea, mapOptions);
 
+    //マーカーの設定
+    var markerOption = {
+        title: "marker",
+        map: map,
+        position: mapPosition, //設置場所
+        icon: '', //アイコンのURL
+    };
+    
+    //設定したマーカーを設置
+    var marker = new google.maps.Marker(markerOption);
+
+    //マーカーホバー時の内容
+    var iwopt = {
+        content: 'hello',
+        position: mapPosition,
+    };
+
+    //インフォの設定
+    var hoverinfo = new google.maps.InfoWindow(iwopt);
+
+    //mouseoverイベントを取得するListenerを追加
+    google.maps.event.addListener(marker, 'mouseover', function(){
+        hoverinfo.open(map, marker);
+    })
+
+    //mouseoutイベントを取得するListenerを追加
+    google.maps.event.addListener(marker, 'mouseout', function(){
+        hoverinfo.close();
+    })
+    */
+
     //配列を使用してマーカーを作成
-    for (i=0; i < gallerydata.length+1; i++)
+    for (i=0; i < gallerydata.length; i++)
     {
         markerOptions[i] = {
-            title: markerID[i],
+            title: '',
             map: map,
             position: new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon),
             icon:'', //アイコンのURL
@@ -269,6 +302,11 @@ function initMap() {
         //インフォの設定
         hoverinfos[i] = new google.maps.InfoWindow(iwopts[i]);
 
+        markerEvent(i);
+    }
+
+    function markerEvent(i)
+    {
         //mouseoverイベントを取得するListenerを追加
         google.maps.event.addListener(markers[i], 'mouseover', function(){
         hoverinfos[i].open(map, markers[i]);
@@ -286,7 +324,6 @@ function test()
 {
     alert("test");
 }
-
 
 //サイト読み込み時の処理
 window.addEventListener("DOMContentLoaded", function() {
