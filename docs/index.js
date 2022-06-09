@@ -244,13 +244,13 @@ function initMap() {
     {},
     {},
     {}
-]
+    ]
     };
     
-    /*
     //マップを設置
     var map = new google.maps.Map(mapArea, mapOptions);
 
+    /*
     //マーカーの設定
     var markerOption = {
         title: "marker",
@@ -316,13 +316,61 @@ function initMap() {
         google.maps.event.addListener(markers[i], 'mouseout', function(){
         hoverinfos[i].close();
         })
+
+        //マーカークリック時のイベント
+        google.maps.event.addListener(markers[i], 'click', markerClick)
     }
+}
+
+//メニュー編集用
+function galleryMenuEdit()
+{
+    var fragment = document.createDocumentFragment(); //frangmentを追加
+    var menu_element = document.getElementById('scroll'); //id属性scrollを取得
+
+    for(i=0; i < gallerydata.length; i++)
+    {
+        //新しい要素を追加
+        var new_element = document.createElement('p');
+        new_element.textContent = gallerydata[i].title + '\n' + gallerydata[i].venue;
+
+        //galleryMenuクラスを付与
+        new_element.classList.add("galleryMenu");
+
+        //fragmentに追加
+        fragment.appendChild(new_element);
+    }
+
+    //scrollの末尾に一括挿入
+    menu_element.appendChild(fragment);
+}
+
+function allGallery()
+{
+    alert("すべて");
+}
+
+function opening()
+{
+    alert("営業中");
+}
+
+function free()
+{
+    alert("入場無料");
+}
+
+function markerClick()
+{
+    alert("マーカーがクリックされました");
 }
 
 //テスト用
 function test()
 {
-    alert("test");
+    var first = 1;
+    var second = 2;
+    alert(first + '\n' + second);
 }
 
 //サイト読み込み時の処理
@@ -330,4 +378,5 @@ window.addEventListener("DOMContentLoaded", function() {
     getJSON();
     getJSON2();
     initMap();
+    galleryMenuEdit();
 })

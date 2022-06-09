@@ -22,10 +22,28 @@
 
 #menu {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     height: 100%;
     width: 25%;
-    float: right;
     background-color: skyblue;
+}
+
+.galleryMenu {
+    height: 150px;
+    width: auto;
+    margin: 10px;
+    background-color: white;
+}
+
+#scroll {
+    height: 80%;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 ul {
