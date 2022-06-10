@@ -59,6 +59,10 @@ function initMap() {
     var mapPosition = { lat: 35.702, lng: 139.394 } //mapの中心
     var mapArea = document.getElementById("map");
     var mapOptions = {
+        zoomControl: false,
+        mapTypeControl: false,
+        streetViewControl: false, 
+        fullscreenControl: false,
         center: mapPosition,
         zoom: 11,
         styles: [
