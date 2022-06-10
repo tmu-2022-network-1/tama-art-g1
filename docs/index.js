@@ -6,6 +6,9 @@ var markerID = [];
 var iwopts = [];
 var hoverinfos = [];
 
+var map;
+var new_element;
+
 function getJSON(){
     let request = new XMLHttpRequest();
     //alert("データを取得しています");
@@ -34,16 +37,30 @@ function getJSON2(){
             gallerydata2 = JSON.parse(request2.responseText); //JSONデータをパース
         }
     };
-    request2.open("GET", "https://script.googleusercontent.com/macros/echo?user_content_key=waQ6VHdXN81Ak5am0kKHyOMEk-chJHeXmz_hRUjjM_DCPBjQw4aVOFX-lvowrIbpvXCCL1oqjAMVzwOiZIl1ZCII_D8gsTHVm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnEmHHJxhC_oe1Qmd2R-eXjoXgTxWUu4HYlJom6QacPSgNEmyKwSz32FPG-bn2sJSQBMlTA-c0F3yHHty0meKf-_VOxuX8xhGctz9Jw9Md8uu&lib=MabRb0sHcOdgcukW2MiMwBlocHvvcqee0", false);
+    request2.open("GET", "https://script.google.com/macros/s/AKfycbxhZ4ww0rLhp6A72xu4HznL5g-cA6BqosnggI2xlzzqrQKqVbq2HTLZO8MpdnaIkZLG_Q/exec", false);
     request2.send();
 }
 
+/*
+function JSONDelete()
+{
+    for(i=0; i < gallerydata.length; i++)
+    {
+        if(gallerydata[i].title = "")
+        {
+            delete(gallerydata[i]);
+            delete(gallerydata2[i]);
+        }
+    }
+}
+*/
+
 function initMap() {
-    var mapPosition = { lat: 35.633, lng: 139.446 } //mapの中心
+    var mapPosition = { lat: 35.702, lng: 139.394 } //mapの中心
     var mapArea = document.getElementById("map");
     var mapOptions = {
         center: mapPosition,
-        zoom: 10,
+        zoom: 11,
         styles: [
     {
         "elementType": "labels",
@@ -248,7 +265,7 @@ function initMap() {
     };
     
     //マップを設置
-    var map = new google.maps.Map(mapArea, mapOptions);
+    map = new google.maps.Map(mapArea, mapOptions);
 
     /*
     //マーカーの設定
@@ -318,7 +335,15 @@ function initMap() {
         })
 
         //マーカークリック時のイベント
-        google.maps.event.addListener(markers[i], 'click', markerClick)
+        google.maps.event.addListener(markers[i], 'click', function(){
+            //横のメニューが対応してスクロール
+            var scrollPos = i * 160; //gallerydataのheight150 + margin10;
+            var scroll_element = document.getElementById("scroll");
+            scroll_element.scrollTo(0, scrollPos);
+
+            //クリックしたmarkerが中心になるようにパン
+            map.panTo(new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon));
+        })
     }
 }
 
@@ -326,12 +351,12 @@ function initMap() {
 function galleryMenuEdit()
 {
     var fragment = document.createDocumentFragment(); //frangmentを追加
-    var menu_element = document.getElementById('scroll'); //id属性scrollを取得
+    var scroll_element = document.getElementById('scroll'); //id属性scrollを取得
 
     for(i=0; i < gallerydata.length; i++)
     {
         //新しい要素を追加
-        var new_element = document.createElement('p');
+        new_element = document.createElement('p');
         new_element.textContent = gallerydata[i].title + '\n' + gallerydata[i].venue;
 
         //galleryMenuクラスを付与
@@ -342,7 +367,8 @@ function galleryMenuEdit()
     }
 
     //scrollの末尾に一括挿入
-    menu_element.appendChild(fragment);
+    scroll_element.appendChild(fragment);
+    //menuClick();
 }
 
 function allGallery()
@@ -360,23 +386,35 @@ function free()
     alert("入場無料");
 }
 
-function markerClick()
+
+//メニュークリック処理
+function menuClick()
 {
-    alert("マーカーがクリックされました");
+    /*
+    var gallery_element = document.getElementsByClassName('galleryMenu')
+    gallery_element.addEventListener('click', function(){
+        map.panTo(new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon));
+        alert("menu now");
+    });
+    */
+
+    document.getElementsById('scroll').addEventListener('click', function(){
+        alert("A");
+    })
 }
+
 
 //テスト用
 function test()
 {
-    var first = 1;
-    var second = 2;
-    alert(first + '\n' + second);
+    alert(gallery.length);
 }
 
 //サイト読み込み時の処理
 window.addEventListener("DOMContentLoaded", function() {
     getJSON();
     getJSON2();
-    initMap();
+    //JSONDelete();
     galleryMenuEdit();
+    initMap();
 })

@@ -15,19 +15,20 @@
     align-items: center;
     height: 100%;
     width: 75%;
-    float: left;
     margin: 0px;
     border: none;
 }
 
 #menu {
-    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     height: 100%;
     width: 25%;
     background-color: skyblue;
+}
+
+.notscroll {
+    margin: 10px;
 }
 
 .galleryMenu {
@@ -35,6 +36,7 @@
     width: auto;
     margin: 10px;
     background-color: white;
+    border-radius: 10px;
 }
 
 #scroll {
@@ -53,6 +55,8 @@ ul {
 html, body {
     background-color: skyblue;
     height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
 }
