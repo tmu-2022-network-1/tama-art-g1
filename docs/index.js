@@ -5,9 +5,12 @@ var markers = [];
 var markerID = [];
 var iwopts = [];
 var hoverinfos = [];
+var clickinfos = [];
 
 var map;
 var new_element;
+var currentInfoWindow = null;
+var galleryMenuArray = [];
 
 function getJSON(){
     let request = new XMLHttpRequest();
@@ -19,6 +22,7 @@ function getJSON(){
         if(request.readyState == 4 && request.status == 200) {
             //alert(request.responseText);
             gallerydata = JSON.parse(request.responseText); //JSONデータをパース
+            gallerydata = gallerydata.filter(d => d.title !== '')
         }
     };
     request.open("GET", "https://script.google.com/macros/s/AKfycbxYb6A56yxS_gLG_AkWxMODItAzBrzYYT8CT3Yvxel3UlgNhau-sJnH1ZbFM-Ho_GcQkA/exec?sheet=events", false);
@@ -35,32 +39,23 @@ function getJSON2(){
         if(request2.readyState == 4 && request2.status == 200) {
             //alert(request2.responseText);
             gallerydata2 = JSON.parse(request2.responseText); //JSONデータをパース
+            gallerydata2 = gallerydata2.filter(d => d.name !== '')
         }
     };
     request2.open("GET", "https://script.google.com/macros/s/AKfycbxhZ4ww0rLhp6A72xu4HznL5g-cA6BqosnggI2xlzzqrQKqVbq2HTLZO8MpdnaIkZLG_Q/exec", false);
     request2.send();
 }
 
-/*
-function JSONDelete()
-{
-    for(i=0; i < gallerydata.length; i++)
-    {
-        if(gallerydata[i].title = "")
-        {
-            delete(gallerydata[i]);
-            delete(gallerydata2[i]);
-        }
-    }
-}
-*/
-
 function initMap() {
-    var mapPosition = { lat: 35.702, lng: 139.394 } //mapの中心
+    var mapPosition = { lat: 35.680, lng: 139.400} //mapの中心
     var mapArea = document.getElementById("map");
     var mapOptions = {
         center: mapPosition,
         zoom: 11,
+        zoomControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false, 
         styles: [
     {
         "elementType": "labels",
@@ -267,38 +262,6 @@ function initMap() {
     //マップを設置
     map = new google.maps.Map(mapArea, mapOptions);
 
-    /*
-    //マーカーの設定
-    var markerOption = {
-        title: "marker",
-        map: map,
-        position: mapPosition, //設置場所
-        icon: '', //アイコンのURL
-    };
-    
-    //設定したマーカーを設置
-    var marker = new google.maps.Marker(markerOption);
-
-    //マーカーホバー時の内容
-    var iwopt = {
-        content: 'hello',
-        position: mapPosition,
-    };
-
-    //インフォの設定
-    var hoverinfo = new google.maps.InfoWindow(iwopt);
-
-    //mouseoverイベントを取得するListenerを追加
-    google.maps.event.addListener(marker, 'mouseover', function(){
-        hoverinfo.open(map, marker);
-    })
-
-    //mouseoutイベントを取得するListenerを追加
-    google.maps.event.addListener(marker, 'mouseout', function(){
-        hoverinfo.close();
-    })
-    */
-
     //配列を使用してマーカーを作成
     for (i=0; i < gallerydata.length; i++)
     {
@@ -318,6 +281,7 @@ function initMap() {
 
         //インフォの設定
         hoverinfos[i] = new google.maps.InfoWindow(iwopts[i]);
+        clickinfos[i] = new google.maps.InfoWindow(iwopts[i]);
 
         markerEvent(i);
     }
@@ -336,10 +300,21 @@ function initMap() {
 
         //マーカークリック時のイベント
         google.maps.event.addListener(markers[i], 'click', function(){
+
+            //開いている吹き出しがあったら閉じる
+            if(currentInfoWindow) {
+                currentInfoWindow.close();
+            }
+
+            clickinfos[i].open(map, markers[i]);
+            currentInfoWindow = clickinfos[i];
+
             //横のメニューが対応してスクロール
-            var scrollPos = i * 160; //gallerydataのheight150 + margin10;
             var scroll_element = document.getElementById("scroll");
-            scroll_element.scrollTo(0, scrollPos);
+            scroll_element.scrollTo({
+                top: i * 160, //gallerydataのheight150 + margin10;
+                behavior: 'smooth',
+            });
 
             //クリックしたmarkerが中心になるようにパン
             map.panTo(new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon));
@@ -355,12 +330,33 @@ function galleryMenuEdit()
 
     for(i=0; i < gallerydata.length; i++)
     {
+        let elementID = i; //これがあるとなぜかaddEventlistenerが正常に動く
+        var galleryMenuText = [];
+        galleryMenuText[i] = `${gallerydata[i].title}<br>${gallerydata[i].venue}<br>${gallerydata[i].admission}`
+
         //新しい要素を追加
         new_element = document.createElement('p');
-        new_element.textContent = gallerydata[i].title + '\n' + gallerydata[i].venue;
+        new_element.innerHTML = galleryMenuText[i];
 
         //galleryMenuクラスを付与
         new_element.classList.add("galleryMenu");
+
+        new_element.id = i;
+        
+
+        //クリック時イベント
+        new_element.addEventListener('click', function(){
+            //クリックした展示と対応したギャラリーのmarkerが中心になるようにパン
+            map.panTo(new google.maps.LatLng(gallerydata2[elementID].lat, gallerydata2[elementID].lon));
+
+            //開いているウィンドウがあれば閉じる
+            if(currentInfoWindow) {
+                currentInfoWindow.close();
+            }
+
+            clickinfos[elementID].open(map, markers[elementID]);
+            currentInfoWindow = clickinfos[elementID];
+        });
 
         //fragmentに追加
         fragment.appendChild(new_element);
@@ -368,8 +364,15 @@ function galleryMenuEdit()
 
     //scrollの末尾に一括挿入
     scroll_element.appendChild(fragment);
-    //menuClick();
-}
+    
+    /*
+    for (i=0; i < gallerydata.length; i++)
+    {
+        galleryMenuArray = document.getElementById(i);
+    }
+    */
+    
+;}
 
 function allGallery()
 {
@@ -383,26 +386,26 @@ function opening()
 
 function free()
 {
-    alert("入場無料");
-}
-
-
-//メニュークリック処理
-function menuClick()
-{
     /*
-    var gallery_element = document.getElementsByClassName('galleryMenu')
-    gallery_element.addEventListener('click', function(){
-        map.panTo(new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon));
-        alert("menu now");
-    });
+    for (i=0; i < gallerydata.length; i++)
+    {
+        
+        if (gallerydata[i].admission == '無料'|| gallerydata[i].admission == 'free')
+        {
+            var freeGallery = [];
+            document.getElementById(i) = freeGallery;
+        }
+        
+    }
     */
 
-    document.getElementsById('scroll').addEventListener('click', function(){
-        alert("A");
-    })
-}
+    /*
+    galleryMenuArray.sort(function(a, b) {
+            return a.title < b.title;
 
+        })
+        */
+}
 
 //テスト用
 function test()
@@ -414,7 +417,6 @@ function test()
 window.addEventListener("DOMContentLoaded", function() {
     getJSON();
     getJSON2();
-    //JSONDelete();
     galleryMenuEdit();
     initMap();
 })
