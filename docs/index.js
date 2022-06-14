@@ -12,6 +12,8 @@ var new_element;
 var currentInfoWindow = null;
 var galleryMenuArray = [];
 
+var title;
+
 function getJSON(){
     let request = new XMLHttpRequest();
     //alert("データを取得しています");
@@ -25,7 +27,7 @@ function getJSON(){
             gallerydata = gallerydata.filter(d => d.title !== '')
         }
     };
-    request.open("GET", "https://script.google.com/macros/s/AKfycbxYb6A56yxS_gLG_AkWxMODItAzBrzYYT8CT3Yvxel3UlgNhau-sJnH1ZbFM-Ho_GcQkA/exec?sheet=events", false);
+    request.open("GET", "https://script.googleusercontent.com/macros/echo?user_content_key=KQdYRF3Ay5vsl9PlF_aBgAfLZA2Mf3VRf_diLN0R4UerpBhK79TGV7kJP_KeMXUUPXrOJvapXdjWLEovg7WJ05OwZhEezYrpm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnGZdoPlb0IGml4_OMP16J45dKse2zz4h-WDBTs9xzMk7kkFz-Bu9aE-kz-ysEQ868d3uVCuwDB3jDPuUtGg-AA_8IR5cXPekpO6QzIpnjC143y7Yrtn84oQ&lib=MabRb0sHcOdgcukW2MiMwBlocHvvcqee0", false);
     request.send();
 }
 
@@ -274,8 +276,20 @@ function initMap() {
 
         markers[i] = new google.maps.Marker(markerOptions[i]);
 
+        
+        var gw = [];
+        gw[i] = gallerydata[i].thumbnail.width;
+        gallerydata[i].thumbnail.height = 20;
+        gallerydata[i].thumbnail.width = gw[i] * (20 / gallerydata[i].height);
+        
+
+        //ホバー時のインフォの内容の設定
+        var ContentStr = [];
+        ContentStr = `<p><img src="${gallerydata2[i].photo}" height="130"></a></p><br>
+        <p>${gallerydata[i].venue}<p><br>
+        <p><button type="button" onclick="moveURL(${i})">会場HP</button><p>`; //ボタンを押すとURLのページに遷移
         iwopts[i] = {
-            content: gallerydata[i].title,
+            content: ContentStr, 
             position: new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon),
         }
 
@@ -306,15 +320,26 @@ function initMap() {
                 currentInfoWindow.close();
             }
 
+            //現在開いている吹き出しの更新
             clickinfos[i].open(map, markers[i]);
             currentInfoWindow = clickinfos[i];
 
             //横のメニューが対応してスクロール
             var scroll_element = document.getElementById("scroll");
             scroll_element.scrollTo({
-                top: i * 160, //gallerydataのheight150 + margin10;
+                top: i * 210, //gallerydataのheight200 + margin10;
                 behavior: 'smooth',
             });
+
+            //選択したメニュー以外の枠線を消しサイズを戻す
+            for (a=0; a < gallerydata.length; a++)
+            {
+                document.getElementById(a).style.borderWidth = "0px";
+                //document.getElementById(a).style.height = "150px";
+            }
+            //クリックしたメニューに枠線をつけサイズを変更
+            document.getElementById(i).style.border = "solid 3px blue";
+            //document.getElementById(i).style.height = "300px";
 
             //クリックしたmarkerが中心になるようにパン
             map.panTo(new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon));
@@ -322,7 +347,7 @@ function initMap() {
     }
 }
 
-//メニュー編集用
+//メニュー作成用
 function galleryMenuEdit()
 {
     var fragment = document.createDocumentFragment(); //frangmentを追加
@@ -332,7 +357,8 @@ function galleryMenuEdit()
     {
         let elementID = i; //これがあるとなぜかaddEventlistenerが正常に動く
         var galleryMenuText = [];
-        galleryMenuText[i] = `${gallerydata[i].title}<br>${gallerydata[i].venue}<br>${gallerydata[i].admission}`
+        galleryMenuText[i] = `<p><img src="${gallerydata[i].thumbnail}" height="150"><br>${gallerydata[i].title}
+        <input type="button" value="詳細" onclick="moveMenu(${i})">`
 
         //新しい要素を追加
         new_element = document.createElement('p');
@@ -342,7 +368,6 @@ function galleryMenuEdit()
         new_element.classList.add("galleryMenu");
 
         new_element.id = i;
-        
 
         //クリック時イベント
         new_element.addEventListener('click', function(){
@@ -356,6 +381,23 @@ function galleryMenuEdit()
 
             clickinfos[elementID].open(map, markers[elementID]);
             currentInfoWindow = clickinfos[elementID];
+
+            //横のメニューが対応してスクロール
+            var scroll_element = document.getElementById("scroll");
+            scroll_element.scrollTo({
+                top: elementID * 210, //gallerydataのheight200 + margin10;
+                behavior: 'smooth',
+            });
+
+            //選択したメニュー以外の枠線を消す
+            for (a=0; a < gallerydata.length; a++)
+            {
+                document.getElementById(a).style.borderWidth = "0px";
+                //document.getElementById(a).style.height = "150px";
+            }
+            //クリックしたメニューに枠線をつけサイズを変更
+            this.style.border = "solid 3px blue";
+            //this.style.height = "300px";
         });
 
         //fragmentに追加
@@ -364,15 +406,12 @@ function galleryMenuEdit()
 
     //scrollの末尾に一括挿入
     scroll_element.appendChild(fragment);
-    
-    /*
-    for (i=0; i < gallerydata.length; i++)
-    {
-        galleryMenuArray = document.getElementById(i);
-    }
-    */
-    
 ;}
+
+function galleryURL(i)
+{
+    location.href = gallerydata[i].url;
+}
 
 function allGallery()
 {
@@ -407,10 +446,22 @@ function free()
         */
 }
 
+//会場URLへのページ遷移
+function moveURL(i)
+{
+    document.location.href = gallerydata[i].url;
+}
+
+//詳細ページに遷移
+function moveMenu(i)
+{
+    window.location.href = "./menu.html?i=" + encodeURIComponent(i);
+}
+
 //テスト用
 function test()
 {
-    alert(gallery.length);
+    alert(i);
 }
 
 //サイト読み込み時の処理
