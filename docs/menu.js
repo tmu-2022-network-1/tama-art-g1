@@ -1,5 +1,3 @@
-document.write("<script type='text/javascript' src='index.js'></script>"); //できない！！！！！！
-
 //index.jsから値を取得
 var query = location.search;
 var value = query.split('=');
@@ -8,15 +6,23 @@ var value = query.split('=');
 function loadMenu()
 {
     alert(value[1]); //できる
-    alert(gallerydata[value[1]].title); //できない
+    //alert(gallerydata[value[1]].title); //できない・・・gallerydataが渡せてない
     //クリックしたオブジェクトによって詳細ページの内容を変更
-    var title = document.getElementById("title")
-    title.innerHTML = gallerydata[value[1]].title;
+    //var title = document.getElementById("title");
+    //title.innerHTML = "gallerydata[value[1]].title";
 }
 
-function test()
+function load()
+{
+    var gallery = getJSON();
+}
+
+function test2()
 {
     alert(decodeURIComponent(value[1]));
 }
 
-window.addEventListener("DOMContentLoaded", loadMenu());
+window.addEventListener("DOMContentLoaded", function(){
+    loadMenu();
+    syosai();
+});

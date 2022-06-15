@@ -1,4 +1,4 @@
-var gallerydata = [];
+let gallerydata = [];
 var gallerydata2 = [];
 var markerOptions = [];
 var markers = [];
@@ -11,8 +11,6 @@ var map;
 var new_element;
 var currentInfoWindow = null;
 var galleryMenuArray = [];
-
-var title;
 
 function getJSON(){
     let request = new XMLHttpRequest();
@@ -358,7 +356,7 @@ function galleryMenuEdit()
         let elementID = i; //これがあるとなぜかaddEventlistenerが正常に動く
         var galleryMenuText = [];
         galleryMenuText[i] = `<p><img src="${gallerydata[i].thumbnail}" height="150"><br>${gallerydata[i].title}
-        <input type="button" value="詳細" onclick="moveMenu(${i})">`
+        <input type="button" value="詳細" onclick="popUp(${i})">`
 
         //新しい要素を追加
         new_element = document.createElement('p');
@@ -453,9 +451,26 @@ function moveURL(i)
 }
 
 //詳細ページに遷移
-function moveMenu(i)
+function popUp(i)
 {
-    window.location.href = "./menu.html?i=" + encodeURIComponent(i);
+    var modalclose = document.getElementById("modalclose");
+    modalclose.style.visibility = "visible";
+    modalclose.addEventListener('click', popUpClose());
+    document.getElementById("modal").style.visibility = "visible";
+    document.getElementById("thumbnail").innerHTML = `<img src="${gallerydata[i].thumbnail}" height="300px">`
+    document.getElementById("title").innerHTML = gallerydata[i].title;
+    document.getElementById("date").innerHTML = `${gallerydata[i].startDate} - ${gallerydata[i].endDate}`;
+    document.getElementById("admission").innerHTML = gallerydata[i].admission;
+    document.getElementById("url").innerHTML = `<a href="${gallerydata[i].url}"></a>`;
+    document.getElementById("openingtime").innerHTML = gallerydata2[i].openingTime;
+    document.getElementById("access").innerHTML = gallerydata2[i].access;
+    document.getElementById("article").innerHTML = "";
+}
+
+function popUpClose()
+{
+    document.getElementById("modalclose").style.visibility = "hidden";
+    document.getElementById("modal").style.visibility = "hidden";
 }
 
 //テスト用
