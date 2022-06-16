@@ -7,6 +7,12 @@
     color:steelblue;
 }
 
+.button {
+    background-color: white;
+    color: cadetblue;
+    border-radius: 100vh;
+}
+
 #map {
     position: relative;
     vertical-align: top;
@@ -87,12 +93,35 @@
 }
 
 .gmbutton {
-    color: white;
+    background-color: white;
+    color: cadetblue;
+    padding: 0px 10px;
+    margin: 7px;
     cursor: pointer;
+    border-radius: 100vh;
 }
 
 .gmbutton:hover {
-    color: orange;
+    background-color: orange;
+    color: cadetblue;
+    transition: 0.2s;
+}
+
+.button {
+    text-align: center;
+    background-color: white;
+    color: cadetblue;
+    padding: 3px 10px;
+    margin: 1px;
+    cursor: pointer;
+    border-radius: 100vh;
+    font-size: 4px;
+    height: 60px;
+}
+
+.button:hover {
+    background-color: orange;
+    color: cadetblue;
     transition: 0.2s;
 }
 
@@ -232,7 +261,10 @@ html, body {
     margin: 0;
     padding: 0;
     display: flex;
+    font-family: "Sawarabi Gothic";
 }
+
+.wf-sawarabigothic { font-family: "Sawarabi Gothic"; }
 
 .logo{
     position: absolute;

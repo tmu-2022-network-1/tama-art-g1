@@ -212,7 +212,7 @@ function initMap() {
                 //document.getElementById(a).style.height = "150px";
             }
             //クリックしたメニューに枠線をつけサイズを変更
-            document.getElementById(i).style.border = "solid 3px blue";
+            document.getElementById(i).style.border = "solid 3px white";
             //document.getElementById(i).style.height = "300px";
 
             //クリックしたmarkerが中心になるようにパン
@@ -285,7 +285,7 @@ function galleryMenuEdit()
                 //document.getElementById(a).style.height = "150px";
             }
             //クリックしたメニューに枠線をつけサイズを変更
-            this.style.border = "solid 3px black";
+            this.style.border = "solid 3px white";
             //this.style.height = "300px";
         });
 
@@ -333,7 +333,7 @@ function popUp(i)
 
     document.getElementById("thumbnail").innerHTML = `<img src="${gallerydata[i].thumbnail}" height="300px">`
     document.getElementById("title").innerHTML = gallerydata[i].title;
-    document.getElementById("date").innerHTML = `${gallerydata[i].startDate} - ${gallerydata[i].endDate}`;
+    //document.getElementById("date").innerHTML = `${gallerydata[i].startDate} - ${gallerydata[i].endDate}`;
     document.getElementById("admission").innerHTML = gallerydata[i].admission;
     document.getElementById("url").innerHTML = `<a href="${gallerydata[i].url}"></a>`;
     document.getElementById("openingtime").innerHTML = gallerydata2[i].openingTime;
