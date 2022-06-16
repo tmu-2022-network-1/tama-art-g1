@@ -39,20 +39,20 @@
     border-radius: 10px;
 }
 
-#modalclose {
-    visibility: hidden;
-    z-index: 3;
+#black {
     position: absolute;
-    top: 10px;
-    right: 28%;
-    height: 50px;
-    width: 50px;
-    background-color: cadetblue;
-    border-radius: 30px;
+    visibility: hidden;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 60%);
 }
+
+
 
 #modal {
     visibility: hidden;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -74,7 +74,9 @@
 }
 
 #title {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 60px;
     top: 0px;
     left: 0px;

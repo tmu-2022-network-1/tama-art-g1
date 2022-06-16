@@ -355,8 +355,8 @@ function galleryMenuEdit()
     {
         let elementID = i; //これがあるとなぜかaddEventlistenerが正常に動く
         var galleryMenuText = [];
-        galleryMenuText[i] = `<p><img src="${gallerydata[i].thumbnail}" height="150"><br>${gallerydata[i].title}
-        <input type="button" value="詳細" onclick="popUp(${i})">`
+        galleryMenuText[i] = `<p><img src="${gallerydata[i].thumbnail}" height="150"></p><p>${gallerydata[i].title}</p>
+        <p><input type="button" value="詳細" onclick="popUp(${i})"></p>`
 
         //新しい要素を追加
         new_element = document.createElement('p');
@@ -411,39 +411,6 @@ function galleryURL(i)
     location.href = gallerydata[i].url;
 }
 
-function allGallery()
-{
-    alert("すべて");
-}
-
-function opening()
-{
-    alert("営業中");
-}
-
-function free()
-{
-    /*
-    for (i=0; i < gallerydata.length; i++)
-    {
-        
-        if (gallerydata[i].admission == '無料'|| gallerydata[i].admission == 'free')
-        {
-            var freeGallery = [];
-            document.getElementById(i) = freeGallery;
-        }
-        
-    }
-    */
-
-    /*
-    galleryMenuArray.sort(function(a, b) {
-            return a.title < b.title;
-
-        })
-        */
-}
-
 //会場URLへのページ遷移
 function moveURL(i)
 {
@@ -453,10 +420,19 @@ function moveURL(i)
 //詳細ページに遷移
 function popUp(i)
 {
-    var modalclose = document.getElementById("modalclose");
-    modalclose.style.visibility = "visible";
-    modalclose.addEventListener('click', popUpClose());
-    document.getElementById("modal").style.visibility = "visible";
+    var modal = document.getElementById("modal");
+    modal.style.visibility = "visible";
+    var black = document.getElementById("black")
+    black.style.visibility = "visible";
+    //モーダル以外をクリックしたらモーダルを閉じる
+    black.addEventListener('click', (event) =>{
+        if(event.target.closest('#black'))
+        {
+            modal.style.visibility = "hidden";
+            black.style.visibility = "hidden";
+        }
+    });
+
     document.getElementById("thumbnail").innerHTML = `<img src="${gallerydata[i].thumbnail}" height="300px">`
     document.getElementById("title").innerHTML = gallerydata[i].title;
     document.getElementById("date").innerHTML = `${gallerydata[i].startDate} - ${gallerydata[i].endDate}`;
@@ -465,12 +441,6 @@ function popUp(i)
     document.getElementById("openingtime").innerHTML = gallerydata2[i].openingTime;
     document.getElementById("access").innerHTML = gallerydata2[i].access;
     document.getElementById("article").innerHTML = "";
-}
-
-function popUpClose()
-{
-    document.getElementById("modalclose").style.visibility = "hidden";
-    document.getElementById("modal").style.visibility = "hidden";
 }
 
 //テスト用
