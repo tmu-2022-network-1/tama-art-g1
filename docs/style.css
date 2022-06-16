@@ -17,6 +17,7 @@
     width: 75%;
     margin: 0px;
     border: none;
+    z-index: 0;
 }
 
 #menu {
@@ -127,4 +128,12 @@ html, body {
     margin: 0;
     padding: 0;
     display: flex;
+}
+
+.logo{
+    position: absolute;
+    top:-90px;
+    left:-10px;
+    width: 280px;
+    z-index: 1;
 }
