@@ -217,6 +217,14 @@ function initMap() {
 
             //クリックしたmarkerが中心になるようにパン
             map.panTo(new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon));
+
+            //離れすぎていたらズーム
+            var currentZoom = map.getZoom();
+            if (currentZoom != 12)
+            {
+                map.setZoom(12);
+            }
+
         })
     }
 }
@@ -231,8 +239,8 @@ function galleryMenuEdit()
     {
         let elementID = i; //これがあるとなぜかaddEventlistenerが正常に動く
         var galleryMenuText = [];
-        galleryMenuText[i] = `<div class="gmthumbnail"><img src="${gallerydata[i].thumbnail}"></div><div class="gmbody"><div class="gmtitle">${gallerydata[i].title}</div>
-        <div class="gmbutton" onclick="popUp(${i})">show more</div></div>`
+        galleryMenuText[i] = `<p class="gmthumbnail"><img src="${gallerydata[i].thumbnail}" height="150px"></p>
+        <p class="gmbutton" onclick="popUp(${i})">show more</p>`
 
         //新しい要素を追加
         new_element = document.createElement('p');
@@ -247,6 +255,13 @@ function galleryMenuEdit()
         new_element.addEventListener('click', function(){
             //クリックした展示と対応したギャラリーのmarkerが中心になるようにパン
             map.panTo(new google.maps.LatLng(gallerydata2[elementID].lat, gallerydata2[elementID].lon));
+
+            //離れすぎていたらズーム
+            var currentZoom = map.getZoom();
+            if (currentZoom != 12)
+            {
+                map.setZoom(12);
+            }
 
             //開いているウィンドウがあれば閉じる
             if(currentInfoWindow) {
@@ -298,14 +313,21 @@ function popUp(i)
 {
     var modal = document.getElementById("modal");
     modal.style.visibility = "visible";
-    var black = document.getElementById("black")
+    modal.classList.add("fadeinmodal");
+    var black = document.getElementById("black");
+    black.classList.remove("fadeout");
     black.style.visibility = "visible";
+    black.classList.add("fadein")
     //モーダル以外をクリックしたらモーダルを閉じる
     black.addEventListener('click', (event) =>{
         if(event.target.closest('#black'))
         {
+            black.classList.remove("fadein");
+            modal.classList.remove("fadeinmodal");
+
             modal.style.visibility = "hidden";
-            black.style.visibility = "hidden";
+            black.classList.add("fadeout");
+            
         }
     });
 
