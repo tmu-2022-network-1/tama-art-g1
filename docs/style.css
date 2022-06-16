@@ -25,7 +25,7 @@
     flex-direction: column;
     height: 100%;
     width: 25%;
-    background-color: skyblue;
+    background-color: #75b8c1;
 }
 
 .notscroll {
@@ -136,4 +136,8 @@ html, body {
     left:-10px;
     width: 280px;
     z-index: 1;
+}
+
+.rollMenu{
+    text-align : center
 }

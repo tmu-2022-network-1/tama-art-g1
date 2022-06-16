@@ -270,7 +270,7 @@ function galleryMenuEdit()
                 //document.getElementById(a).style.height = "150px";
             }
             //クリックしたメニューに枠線をつけサイズを変更
-            this.style.border = "solid 3px blue";
+            this.style.border = "solid 3px black";
             //this.style.height = "300px";
         });
 
