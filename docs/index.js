@@ -231,7 +231,7 @@ function galleryMenuEdit()
     {
         let elementID = i; //これがあるとなぜかaddEventlistenerが正常に動く
         var galleryMenuText = [];
-        galleryMenuText[i] = `<p class="rollMenu"><img src="${gallerydata[i].thumbnail}" height="150"><br>${gallerydata[i].title}
+        galleryMenuText[i] = `<p><img src="${gallerydata[i].thumbnail}" height="150"><br>${gallerydata[i].title}
         <input type="button" value="詳細" onclick="popUp(${i})">`
 
         //新しい要素を追加
