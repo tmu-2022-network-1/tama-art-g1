@@ -331,7 +331,7 @@ function popUp(i)
         }
     });
 
-    document.getElementById("thumbnail").innerHTML = `<img src="${gallerydata[i].thumbnail}" height="300px">`
+    document.getElementById("thumbnail").innerHTML = `<img src="${gallerydata[i].thumbnail}" class="photo">`
     document.getElementById("title").innerHTML = gallerydata[i].title;
     //document.getElementById("date").innerHTML = `${gallerydata[i].startDate} - ${gallerydata[i].endDate}`;
     document.getElementById("admission").innerHTML = gallerydata[i].admission;
