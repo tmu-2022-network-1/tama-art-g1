@@ -159,9 +159,9 @@ function initMap() {
 
         //ホバー時のインフォの内容の設定
         var ContentStr = [];
-        ContentStr = `<p><img src="${gallerydata2[i].photo}" height="130"></a></p><br>
-        <p>${gallerydata[i].venue}<p><br>
-        <p><button type="button" onclick="moveURL(${i})">会場HP</button><p>`; //ボタンを押すとURLのページに遷移
+        ContentStr = `<p class="hover"><img src="${gallerydata2[i].photo}" height="130px" class="img"></a></p><br>
+        <p class="venue">${gallerydata[i].venue}<p><br>
+        <p><button type="button" onclick="moveURL(${i})" class="hpButton">会場HP</button><p>`; //ボタンを押すとURLのページに遷移
         iwopts[i] = {
             content: ContentStr, 
             position: new google.maps.LatLng(gallerydata2[i].lat, gallerydata2[i].lon),
