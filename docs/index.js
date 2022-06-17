@@ -240,7 +240,7 @@ function galleryMenuEdit()
         let elementID = i; //これがあるとなぜかaddEventlistenerが正常に動く
         var galleryMenuText = [];
         galleryMenuText[i] = `<p class="gmthumbnail"><img src="${gallerydata[i].thumbnail}" height="150px"></p>
-        <p class="gmbutton" onclick="popUp(${i})">show more</p>`
+        <p class="gmbutton" onclick="popUp(${i})">read more</p>`
 
         //新しい要素を追加
         new_element = document.createElement('p');
