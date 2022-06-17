@@ -217,15 +217,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
     top: 0px;
     left: 0px;
     right: 0px;
     bottom: 0px;
-    margin: auto;
+    padding: 15px;
+    margin: 20px;
     font-size: 25px;
     border-top: solid 1px white;
     border-bottom: solid 1px white;
+}
+
+#article {
+    background-color: white;
+    color: #75b8c1;
+    border-radius: 20px;
+    padding: 20px;
+    height: auto;
 }
 
 #modalbody {
