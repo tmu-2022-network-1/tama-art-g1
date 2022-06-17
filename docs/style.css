@@ -307,3 +307,18 @@ html, body {
     font-style: normal;
     font-size: 17px;
 }
+
+.hpButton{
+    background-color: #75b8c1;
+    color: white;
+    padding: 0px 10px;
+    margin: 7px;
+    cursor: pointer;
+    border-radius: 100vh;
+}
+
+.hpButton:hover{
+    background-color: orange;
+    color: white;
+    transition: 0.2s;
+}
