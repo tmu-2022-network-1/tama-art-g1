@@ -39,17 +39,24 @@
 
 #notscroll {
     display: flex;
+    color: white;
+    padding: 2%;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    margin: 10px;
-    height: 20%;
+    margin: 5%;
+    height: 15%;
     background-color: #75b8c1;
+}
+
+#hint {
+    margin: 2%;
+    font-size: 0.8rem;
+    color: white;
 }
 
 .galleryMenu {
     display: flex;
-    flex-flow: column;
     justify-content: center;
     align-items: center;
     height: 200px;
@@ -61,13 +68,28 @@
 }
 
 .gmthumbnail {
+    margin: 2%;
     overflow: hidden;
-    height: 150px;
+    width: 100px;
+    height: 100px;
 }
 
 .gmthumbnail img {
+    height: 150px;
     overflow: hidden;
+}
 
+.gmcontent {
+    width: 55%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.gmtit {
+    color: white;
+    margin: 2%;
 }
 
 .gmbody {
@@ -95,6 +117,8 @@
 }
 
 .gmbutton {
+    display: inline-block;
+    width: auto;
     background-color: white;
     color: cadetblue;
     padding: 0px 10px;
@@ -110,15 +134,16 @@
 }
 
 .button {
+    display: inline-block;
     text-align: center;
     background-color: white;
     color: cadetblue;
     padding: 3px 10px;
-    margin: 1px;
+    margin: 3px;
     cursor: pointer;
     border-radius: 100vh;
     font-size: 4px;
-    height: 60px;
+    height: auto;
 }
 
 .button:hover {
@@ -178,8 +203,8 @@
     left: 6%;
     bottom: 0px;
     margin: auto;
-    height: 600px;
-    width: 800px;
+    height: 90%;
+    width: 60%;
     overflow: auto;
     background-color: #75b8c1;
     padding: 20px;
@@ -210,20 +235,21 @@
 
 #thumbnail {
     text-align: center;
-    height: 300px;
+    height: 50%;
+}
+
+#thumbnail img {
+    height: 100%;
 }
 
 #title {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    padding: 15px;
-    margin: 20px;
-    font-size: 25px;
+    height: 10%;
+    padding: 2%;
+    margin: 3%;
+    font-size: 1.5rem;
     border-top: solid 1px white;
     border-bottom: solid 1px white;
 }
@@ -238,6 +264,7 @@
 
 #modalbody {
     display: flex;
+    height: 40%;
 }
 
 #modalstatic {
